@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='TeXtation',
-    version='0.2',
+    version='0.3',
     packages=find_packages(),
     install_requires=[
         'aiohttp==3.8.6',
@@ -48,7 +48,7 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'textation=textation.main:main',
+            'textation=TeXtation.main:main',
         ],
     },
 )
