@@ -1,67 +1,54 @@
-import tkinter as tk
+import customtkinter as ctk
 from dotenv import load_dotenv
-from api import get_latex_equation
+from gui_utils import convert_prompt, copy_to_clipboard, ask_api_key
 from settings import initialize_settings
-from tkinter import messagebox
-
-
-def convert_prompt(text_input_widget, text_output_widget):
-    # Extract the input prompt from the Text widget
-    prompt = text_input_widget.get("1.0", tk.END).strip()
-
-    # Get the LaTeX equation using the extracted prompt
-    latex_equation = get_latex_equation(prompt)
-
-    # Clear the output Text widget and insert the LaTeX equation
-    text_output_widget.delete("1.0", tk.END)
-    text_output_widget.insert(tk.END, latex_equation)
-
-def copy_to_clipboard(output_widget, root):
-    try:
-        root.clipboard_clear()  # Clear the clipboard
-        text_to_copy = output_widget.get("1.0", tk.END).strip()  # Get text from output
-        root.clipboard_append(text_to_copy)  # Append text to the clipboard
-        messagebox.showinfo("Success", "Output copied to clipboard!")  # Optional: show a confirmation message
-    except Exception as e:
-        messagebox.showerror("Error", f"Failed to copy: {e}")
-
-def set_api_key(root):
-    # This function will be called when the user selects the option to set the API key
-    api_key = simpledialog.askstring("API Key", "Enter your API key:", parent=root)
-    if api_key:
-        # Here you would normally save this API key to a file or an environment variable
-        print(api_key)  # For demonstration purposes, we're just printing it
-        # For example, you might use: openai.api_key = api_key
+import tkinter as tk
 
 
 def main():
-    load_dotenv()  # Load environment variables from a .env file
-    initialize_settings()  # Load non-sensitive settings from a config file
+    # Set the theme of CTk
+    ctk.set_appearance_mode("Dark")  # Other options: "Light", "System"
+    ctk.set_default_color_theme("green")  # You can also create a custom theme dictionary
 
-    root = tk.Tk()
-    root.title("Equation Converter")
+    root = ctk.CTk()
+    root.title("TeXtation")
+
+    # Set the window size to be a little wider
+    root.geometry("250x450")  # Width x Height in pixels
 
     # Input text widget
-    label_input = tk.Label(root, text="Enter your prompt:")
-    label_input.pack()
-    text_input = tk.Text(root, height=5, width=50)
-    text_input.pack()
+    label_input = ctk.CTkLabel(root, text="Enter your prompt:")
+    label_input.pack(pady=10, padx=10)
+    text_input = ctk.CTkTextbox(root, height=100, corner_radius=10)
+    text_input.pack(pady=10, padx=10)
 
     # Output text widget
-    label_output = tk.Label(root, text="LaTeX Output:")
-    label_output.pack()
-    text_output = tk.Text(root, height=5, width=50)
-    text_output.pack()
+    label_output = ctk.CTkLabel(root, text="LaTeX Output:")
+    label_output.pack(pady=10, padx=10)
+    text_output = ctk.CTkTextbox(root, height=100, corner_radius=10)
+    text_output.pack(pady=10, padx=10)
 
     # Button to trigger conversion
-    convert_button = tk.Button(root, text="Convert", command=lambda: convert_prompt(text_input, text_output))
-    convert_button.pack()
+    convert_button = ctk.CTkButton(root, text="Convert", command=lambda: convert_prompt(text_input, text_output))
+    convert_button.pack(pady=10, padx=10)
 
     # Button to copy output to clipboard
-    copy_button = tk.Button(root, text="Copy to Clipboard", command=lambda: copy_to_clipboard(text_output, root))
-    copy_button.pack()
+    copy_button = ctk.CTkButton(root, text="Copy to Clipboard",fg_color= 'gray', command=lambda: copy_to_clipboard(text_output, root))
+    copy_button.pack(pady=10, padx=10)
+
+    # Menu bar - using standard Tkinter Menu but customizing colors
+    menubar = tk.Menu(root, bg="white")
+
+    # Adding a "Settings" dropdown menu with customized colors
+    settings_menu = tk.Menu(menubar, tearoff=0)
+    settings_menu.add_command(label="API Key", command=lambda: ask_api_key())  # Function needs to be defined
+    menubar.add_cascade(label="Settings", menu=settings_menu, background="black", foreground="white")
+
+    # Configure the root menu to use this menu bar
+    root.config(menu=menubar)
 
     root.mainloop()
+
 
 if __name__ == "__main__":
     main()
