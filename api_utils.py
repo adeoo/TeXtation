@@ -8,7 +8,7 @@ def get_latex_equation(prompt):
 
     try:
         response = openai.ChatCompletion.create(
-            model=  "davinci-002",  #"gpt-3.5-turbo",
+            model="gpt-3.5-turbo",
             messages=[
                 {
                     "role": "system",
