@@ -1,7 +1,5 @@
 import customtkinter as ctk
-from dotenv import load_dotenv
-from gui_utils import convert_prompt, copy_to_clipboard, ask_api_key
-from settings import initialize_settings
+from TeXtation.gui_utils import convert_prompt, copy_to_clipboard, ask_api_key
 import tkinter as tk
 
 

@@ -1,8 +1,8 @@
 import configparser
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-from api_utils import get_latex_equation
-
+from TeXtation.api_utils import get_latex_equation
+import os
 
 def convert_prompt(text_input_widget, text_output_widget):
     """
@@ -52,16 +52,26 @@ def ask_api_key():
     api_key = simpledialog.askstring("API Key", "Enter your API Key:", parent=root)
 
     if api_key:  # If the user provided an API key
-        # Initialize the config parser and read current config
+        # Initialize the config parser
         config = configparser.ConfigParser()
+
+        # Check if 'config.ini' exists, if not, create it with the default sections/values
+        if not os.path.exists('../config.ini'):
+            config['API'] = {'key': ''}
+            with open('../config.ini', 'w') as configfile:
+                config.write(configfile)
+
+        # Read the current config
         config.read('config.ini')
 
         # Update the API section with the new key
         config['API']['key'] = api_key
 
         # Write the updated configuration back to 'config.ini'
-        with open('config.ini', 'w') as configfile:
+        with open('../config.ini', 'w') as configfile:
             config.write(configfile)
 
     # Destroy the temporary window
     root.destroy()
+
+
