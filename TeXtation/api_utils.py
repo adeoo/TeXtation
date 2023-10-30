@@ -1,6 +1,6 @@
 import re
 import openai
-from settings import initialize_settings
+from TeXtation.settings import initialize_settings
 
 def get_latex_equation(prompt):
     api_key = initialize_settings()
