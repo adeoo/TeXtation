@@ -9,6 +9,7 @@ import os
 current_directory = os.path.dirname(os.path.abspath(__file__))
 parent_directory = os.path.dirname(current_directory)
 config_path = os.path.join(parent_directory, 'config.ini')
+print(config_path)
 
 def convert_prompt(text_input_widget, text_output_widget):
     """

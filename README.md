@@ -2,7 +2,7 @@
 
 TeXtation is a tool that converts text prompts into ready-to-use LaTeX. It simplifies the process of generating LaTeX code from textual inputs.
 
-![TeXtation Screenshot](screenshot.png) 
+![TeXtation Screenshot](https://github.com/adeoo/TeXtation/blob/master/screenshot.png) 
 
 ## Features
 
