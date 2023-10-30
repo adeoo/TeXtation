@@ -4,6 +4,12 @@ from tkinter import messagebox, simpledialog
 from TeXtation.api_utils import get_latex_equation
 import os
 
+import os
+
+current_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.dirname(current_directory)
+config_path = os.path.join(parent_directory, 'config.ini')
+
 def convert_prompt(text_input_widget, text_output_widget):
     """
     Takes text from a Text widget, processes it to get a LaTeX equation,
@@ -56,19 +62,19 @@ def ask_api_key():
         config = configparser.ConfigParser()
 
         # Check if 'config.ini' exists, if not, create it with the default sections/values
-        if not os.path.exists('../config.ini'):
+        if not os.path.exists(config_path):
             config['API'] = {'key': ''}
-            with open('../config.ini', 'w') as configfile:
+            with open(config_path, 'w') as configfile:
                 config.write(configfile)
 
         # Read the current config
-        config.read('config.ini')
+        config.read(config_path)
 
         # Update the API section with the new key
         config['API']['key'] = api_key
 
         # Write the updated configuration back to 'config.ini'
-        with open('../config.ini', 'w') as configfile:
+        with open(config_path, 'w') as configfile:
             config.write(configfile)
 
     # Destroy the temporary window

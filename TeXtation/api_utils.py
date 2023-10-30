@@ -5,6 +5,7 @@ from TeXtation.settings import initialize_settings
 def get_latex_equation(prompt):
     api_key = initialize_settings()
     openai.api_key = api_key
+    print(api_key)
 
     try:
         response = openai.ChatCompletion.create(
