@@ -48,7 +48,7 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'textation = main:main',
+            'textation=textation.main:main',
         ],
     },
 )
